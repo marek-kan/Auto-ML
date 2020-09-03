@@ -6,6 +6,10 @@
 *.log
 *.pot
 *.pyc
+auto_ml/__pycache__/
+regression/__pycache__/
+classification/__pycache__/
+base/__pycache__/
 __pycache__/
 local_settings.py
 db.sqlite3
