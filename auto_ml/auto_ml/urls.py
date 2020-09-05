@@ -22,6 +22,6 @@ import base.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', base.views.home, name='home'),
-    #path('classification/', include('classification.urls')),
-    #path('regression/', include('regression.urls')),
+    path('classification/', include('classification.urls')),
+    path('regression/', include('regression.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

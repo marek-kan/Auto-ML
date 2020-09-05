@@ -1,3 +1,4 @@
 from django.shortcuts import render
 
-# Create your views here.
+def classification(request):
+    return render(request, 'classification/classification.html')

@@ -1,3 +1,4 @@
 from django.shortcuts import render
 
-# Create your views here.
+def regression(request):
+    return render(request, 'regression/regression.html')
