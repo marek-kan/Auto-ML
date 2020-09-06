@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="mt-3 container">
-  <form method="POST" action="{% url 'home' %}">
+  <form method="POST" action="{% url 'regression' %}">
     {% csrf_token %}
     <label for="train_file"> <h5>Select a train csv file:</h5> </label>
     <br/>
