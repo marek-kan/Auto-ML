@@ -45,11 +45,11 @@ class AutoRegression():
     def pick_model(self):
         self.x = self.train[self.use_columns]
         try:
-            self.x = pd.get_dummies(x)
+            self.x = pd.get_dummies(self.x)
         except:
             pass # if no categorical features
         self.final_columns = self.x.columns
-
+        print(self.x.columns)
         self.scaler = StandardScaler()
         self.x = self.scaler.fit_transform(self.x)
         self.y = self.train['y']
