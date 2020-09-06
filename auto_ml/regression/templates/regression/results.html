@@ -1,5 +1,16 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-Results
+<H3 class="text-center"> Results </H3>
+<br>
+<div class="container">
+  <p><b> Mean Absolute Error - Test:</b> {{ mae }} </p>
+  <p><b> R^2 - Test:</b> {{ r2 }} </p>
+  <p><b> Used Features:</b> {{ used_features }} </p>
+  <!-- <div class="text-center"> -->
+  {{ feature_importances_plot|safe }}
+  <br>
+  {{ regressin_line_plot|safe }}
+  <!-- </div> -->
+</div>
 {% endblock %}
