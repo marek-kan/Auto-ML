@@ -1,20 +1,5 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-<div class="mt-3 container">
-  <form method="POST" action="{% url 'home' %}">
-    {% csrf_token %}
-    <label for="train_file"> <h5>Select a train csv file:</h5> </label>
-    <br/>
-    <input type="file" id="train_file" name="train_file">
-    <br/>
-    <br/>
-    <label for="test_file"> <h5>Select a test csv file:</h5> </label>
-    <br/>
-    <input type="file" id="test_file" name="test_file">
-    <br/>
-    <br/>
-    <input class="btn btn-primary" type="submit" value="Send" />
-  </form>
-</div>
+  {% include 'base/settings.html' with text=page %}
 {% endblock %}
