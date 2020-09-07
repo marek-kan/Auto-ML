@@ -40,4 +40,5 @@ def regression(request):
 
         return render(request, 'regression/results.html', return_objects['result'])
     else:
-        return render(request, 'regression/regression.html')
+        d = {'page': 'regression'}
+        return render(request, 'regression/regression.html', d)
