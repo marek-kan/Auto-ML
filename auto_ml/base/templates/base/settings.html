@@ -1,3 +1,9 @@
+{% if text == 'regression' %}
+  <h4>Regression</h4>
+{% elif text == 'classification' %}
+  <h4>Classification</h4>
+{% endif %}
+<br>
 <div class="mt-3 container">
   <form method="POST" action="{% url text %}" enctype="multipart/form-data">
     {% csrf_token %}
