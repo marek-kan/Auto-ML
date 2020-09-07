@@ -18,19 +18,18 @@ sys.path.append('../')
 from processing import *
 
 class AutoRegression():
-    def __init__(self, train, test):
+    def __init__(self, train, test, settings):
         self.train = train
         self.test = test
         self.all_columns = list(train.columns)
         self.all_columns[-1] = 'y'
         self.train.columns = self.all_columns
         self.missing = train.isna().sum()
-        self.drop_all = False # do you want to drop if missing any?
-        self.filling_method = 'median'
-        self.fill_categorical = 'most common'
-        self.selection_treshold = 0.05
-        self.plot_only = 20 # feature importencies plot
-        self.splits = 3
+        self.filling_method = settings['missing']
+        self.fill_categorical = 'most common' # only if settings['missing']!='drop' 
+        self.selection_treshold = float(settings['thrashold'])
+        self.plot_only = int(settings['to_plot'])# feature importencies plot
+        self.splits = int(settings['folds'])
         self.skf = KFold(n_splits=self.splits, shuffle=True)
 
     def create_data_types(self):
@@ -102,7 +101,7 @@ class AutoRegression():
 
         ### FILLING
         print('filling')
-        if self.drop_all:
+        if self.filling_method=='drop':
             self.train = self.train.dropna().reset_index()
             self.train.drop('index', axis=1, inplace=True)
         else:
@@ -169,7 +168,7 @@ class AutoRegression():
         test_columns[-1] = 'y'
         self.test.columns = test_columns
 
-        if self.drop_all:
+        if self.filling_method=='drop':
             self.test = self.test.dropna()
         else:
             self.test = self.filler.transform(self.test) # in case some missing values in test sample

@@ -4,10 +4,11 @@ from .models import AutoRegression
 
 from multiprocessing import Process, Manager
 
-def helper(train, test, return_objects):
-    auto_reg = AutoRegression(train, test)
+def helper(train, test, settings, return_objects):
+    auto_reg = AutoRegression(train, test, settings)
     auto_reg.run()
     results = {
+        'best_model': auto_reg.models[auto_reg.best_model],
         'feature_importances_plot': auto_reg.feature_imp_html,
         'regressin_line_plot': auto_reg.reg_line_html,
         'mae': auto_reg.mae_test.round(3),
@@ -19,6 +20,8 @@ def helper(train, test, return_objects):
 
 def regression(request):
     if request.method == 'POST':
+        print(request.POST)
+        #print(request.POST.get('missing'),request.POST.get('thrashold'),request.POST.get('to_plot'), request.POST.get('folds'))
         train = pd.read_csv(request.FILES.get('train_file'))
         train = train.reset_index()
         train.drop('index', axis=1, inplace=True)
@@ -31,7 +34,7 @@ def regression(request):
 
         m = Manager()
         return_objects = m.dict()
-        p = Process(target=helper, args=(train, test, return_objects))
+        p = Process(target=helper, args=(train, test, request.POST, return_objects))
         p.start()
         p.join()
 
