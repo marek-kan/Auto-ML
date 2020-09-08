@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<H3 class="text-center"> Results </H3>
+<br>
+<div class="container">
+  <p><b> Chosen model:</b> {{ best_model }} </p>
+  <p><b> Accuracy - Test:</b> {{ acc }} </p>
+  <p><b> AUC - Test:</b> {{ auc }} </p>
+  <p><b> Used Features:</b> {{ used_features }} </p>
+  <!-- <div class="text-center"> -->
+  {{ feature_importances_plot|safe }}
+  <br>
+  {{ decision_line_plot|safe }}
+  <!-- </div> -->
+</div>
+{% endblock %}

@@ -20,8 +20,6 @@ def helper(train, test, settings, return_objects):
 
 def regression(request):
     if request.method == 'POST':
-        print(request.POST)
-        #print(request.POST.get('missing'),request.POST.get('thrashold'),request.POST.get('to_plot'), request.POST.get('folds'))
         train = pd.read_csv(request.FILES.get('train_file'))
         train = train.reset_index()
         train.drop('index', axis=1, inplace=True)
@@ -29,8 +27,6 @@ def regression(request):
         test = pd.read_csv(request.FILES.get('test_file'))
         test = test.reset_index()
         test.drop('index', axis=1, inplace=True)
-
-        #d = {'train': train, 'test': test}
 
         m = Manager()
         return_objects = m.dict()

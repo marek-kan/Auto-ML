@@ -26,7 +26,7 @@ class AutoRegression():
         self.train.columns = self.all_columns
         self.missing = train.isna().sum()
         self.filling_method = settings['missing']
-        self.fill_categorical = 'most common' # only if settings['missing']!='drop' 
+        self.fill_categorical = 'most common' # only if settings['missing']!='drop'
         self.selection_treshold = float(settings['thrashold'])
         self.plot_only = int(settings['to_plot'])# feature importencies plot
         self.splits = int(settings['folds'])
@@ -125,7 +125,7 @@ class AutoRegression():
         if self.best_model=='svr':
             if self.old_model == 'rf':
                 temp = clone(self.models['rf'])
-                temp.fit(x, y)
+                temp.fit(self.x, self.y)
                 weights = temp.feature_importances_
             else:
                 temp = clone(self.models['lr'])
@@ -162,8 +162,6 @@ class AutoRegression():
         self.reg_line_html = vis_regression_line(x_vis, self.y, model_vis)
 
         print('testing')
-        #test = pd.read_csv(read_test).reset_index()
-        #test.drop('index', axis=1, inplace=True)
         test_columns = list(self.test.columns)
         test_columns[-1] = 'y'
         self.test.columns = test_columns
