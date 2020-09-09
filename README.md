@@ -1,5 +1,5 @@
 # Auto-ML
-This repo shows simple proof of concept of simple auto machine learning app. It can do regression and classification task so far (no object detection etc.).<br>
+This repo shows simple proof of concept of simple auto machine learning app. It can do regression and classification tasks so far (no object detection etc.).<br>
 I have found it useful for quick data exploration. Linearity of data, most important variables, ...
 
 <b>Features included:</b>
