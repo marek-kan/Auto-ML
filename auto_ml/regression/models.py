@@ -30,9 +30,19 @@ class AutoRegression():
         self.selection_treshold = float(settings['thrashold'])
         self.plot_only = int(settings['to_plot'])# feature importencies plot
         self.splits = int(settings['folds'])
-        self.skf = KFold(n_splits=self.splits, shuffle=True)
+        self.kf = KFold(n_splits=self.splits, shuffle=True)
 
     def create_data_types(self):
+        """Creates series of columns data types
+
+        Parameters
+        ----------
+
+
+        Creates
+        -------
+        self.d_types
+        """
         for col in self.all_columns:
             try:
                 if float(self.train[col].iloc[-3]):
@@ -42,6 +52,27 @@ class AutoRegression():
         self.d_types = self.train.dtypes
 
     def pick_model(self):
+        """Picks the best model based on KFold validation.
+            * Ridge (lr)
+            * Random Forrest Regressor (rf)
+            * Support Vector Machine Regressor (svr)
+
+        Parameters
+        ----------
+
+
+        Creates
+        -------
+        self.x: scaled and processed featue dataset
+        self.y: target variable data
+        self.final_columns: columns used for building model
+        self.models: dict, keeps models objects
+        self.scores: dict, keeps scores of each model from CV
+        self.best_model: str, key value of the best model
+        self.old_model: str, key value of the 2nd best model
+        self.best_score: float, best achieved score
+        self.old_score: float, 2nd best score
+        """
         self.x = self.train[self.use_columns]
         try:
             self.x = pd.get_dummies(self.x)
@@ -65,7 +96,7 @@ class AutoRegression():
         self.models = {'lr': lr, 'rf': rf, 'svr': svr}
         self.scores = {'lr': [], 'rf': [], 'svr': []}
         print('selecting model')
-        for i, (train_index, test_index) in enumerate(self.skf.split(self.x, self.y)):
+        for i, (train_index, test_index) in enumerate(self.kf.split(self.x, self.y)):
             x_tr, x_val = self.x[train_index], self.x[test_index]
             y_tr, y_val = self.y[train_index], self.y[test_index]
             if len(x_tr)>10000:
@@ -97,6 +128,17 @@ class AutoRegression():
         print(self.best_model, self.best_score)
 
     def run(self):
+        """Runs AutoClassification
+
+        Parameters
+        ----------
+
+
+        Creates
+        -------
+        self.feature_imp_html: html tag, visualisation, used in app
+        self.reg_line_html: html tag, visualisation, used in app
+        """
         self.create_data_types()
 
         ### FILLING

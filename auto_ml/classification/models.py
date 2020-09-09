@@ -36,6 +36,16 @@ class AutoClassification():
         self.skf = StratifiedKFold(n_splits=self.splits, shuffle=True)
 
     def create_data_types(self):
+        """Creates series of columns data types
+
+        Parameters
+        ----------
+
+
+        Creates
+        -------
+        self.d_types
+        """
         for col in self.all_columns:
             try:
                 if float(self.train[col].iloc[-3]):
@@ -45,6 +55,27 @@ class AutoClassification():
         self.d_types = self.train.dtypes
 
     def pick_model(self):
+        """Picks the best model based on KFold validation.
+            * Logistic Regression (lr)
+            * Random Forrest Classifier (rf)
+            * Support Vector Machine Classifier (svc)
+
+        Parameters
+        ----------
+
+
+        Creates
+        -------
+        self.x: scaled and processed featue dataset
+        self.y: target variable data
+        self.final_columns: columns used for building model
+        self.models: dict, keeps models objects
+        self.scores: dict, keeps scores of each model from CV
+        self.best_model: str, key value of the best model
+        self.old_model: str, key value of the 2nd best model
+        self.best_score: float, best achieved score
+        self.old_score: float, 2nd best score
+        """
         self.x = self.train[self.use_columns]
         try:
             self.x = pd.get_dummies(self.x)
@@ -96,6 +127,17 @@ class AutoClassification():
         print(self.best_model, self.best_score)
 
     def run(self):
+        """Runs AutoClassification
+
+        Parameters
+        ----------
+
+
+        Creates
+        -------
+        self.feature_imp_html: html tag, visualisation, used in app
+        self.dec_line_html: html tag, visualisation, used in app
+        """
         self.create_data_types()
 
         ### FILLING
@@ -157,7 +199,7 @@ class AutoClassification():
             x_vis = self.x.copy()
             model_vis = model
 
-        # create regression line
+        # create decision boundary
         xx, yy = make_meshgrid(x_vis[:,0], x_vis[:,1])
         self.dec_line_html = plot_contours(model_vis, xx, yy, x_vis, self.y, cmap=plt.cm.coolwarm)
 
@@ -192,3 +234,4 @@ class AutoClassification():
             self.auc = roc_auc_score(y_test, pred)
         print('Accuracy: ', self.acc)
         print('AUC: ', self.auc)
+        print('Used Features: ', self.use_columns)
